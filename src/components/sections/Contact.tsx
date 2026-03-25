@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -16,26 +15,38 @@ import {
   FormLabel, 
   FormMessage 
 } from "@/components/ui/form"
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select"
 import { aiLeadCategorizationAndResponse } from "@/ai/flows/ai-lead-categorization-and-response"
 import { useToast } from "@/hooks/use-toast"
-import { Send, MessageSquare, Mail } from "lucide-react"
+import { Send, Mail, Phone, MapPin, Clock } from "lucide-react"
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Invalid email address." }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+  firstName: z.string().min(2, { message: "Required" }),
+  lastName: z.string().min(2, { message: "Required" }),
+  email: z.string().email({ message: "Invalid email" }),
+  phone: z.string().optional(),
+  service: z.string().min(1, { message: "Please select a service" }),
+  message: z.string().min(10, { message: "Message too short" }),
 })
 
 export function Contact() {
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
-  const [aiDraft, setAiDraft] = React.useState<string | null>(null)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
+      phone: "",
+      service: "",
       message: "",
     },
   })
@@ -43,21 +54,22 @@ export function Contact() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
     try {
-      // Simulate/Trigger AI flow for response generation (internal)
-      const result = await aiLeadCategorizationAndResponse(values)
-      
-      toast({
-        title: "Message Sent Successfully!",
-        description: "Our AI is processing your inquiry as: " + result.category,
+      const result = await aiLeadCategorizationAndResponse({
+        name: `${values.firstName} ${values.lastName}`,
+        email: values.email,
+        message: values.message
       })
       
-      setAiDraft(result.draftResponse)
+      toast({
+        title: "✓ Message Sent!",
+        description: "Our AI categorization: " + result.category,
+      })
       form.reset()
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Something went wrong. Please try again later.",
+        description: "Failed to send message.",
       })
     } finally {
       setIsSubmitting(false)
@@ -65,60 +77,46 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="py-24 bg-background overflow-hidden">
+    <section id="contact" className="py-24 bg-background">
       <div className="container mx-auto px-6">
-        <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-16">
-          <div className="lg:w-1/2">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold mb-6">
-              Let's Build <br />
-              <span className="text-gradient">Something Smart</span> <br />
-              Together
-            </h2>
-            <p className="text-muted-foreground text-lg mb-10">
-              Ready to automate your workflows or integrate AI into your systems? Reach out today for a free consultation.
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+          <div>
+            <p className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-3">Get In Touch</p>
+            <h2 className="text-4xl md:text-5xl font-black mb-6">Let's build<br />something real.</h2>
+            <p className="text-muted-foreground text-lg mb-10 max-w-md">
+              Tell us what you need. We'll scope it, price it, and ship it — fast.
             </p>
 
             <div className="space-y-6">
-              <div className="flex items-center gap-4 p-4 glass rounded-2xl">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Mail className="text-primary" />
+              {[
+                { icon: Mail, value: "hello@welldropp.ai" },
+                { icon: Phone, value: "+91 87788 60376" },
+                { icon: MapPin, value: "Tamil Nadu, India 🇮🇳" },
+                { icon: Clock, value: "Mon–Sat, 9AM–7PM IST" },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-primary/5 border border-primary/20 rounded-xl flex items-center justify-center">
+                    <item.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <span className="text-muted-foreground font-semibold">{item.value}</span>
                 </div>
-                <div>
-                  <div className="text-sm text-muted-foreground">Email us</div>
-                  <div className="font-semibold">hello@welldropp.com</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 glass rounded-2xl">
-                <div className="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center">
-                  <MessageSquare className="text-green-500" />
-                </div>
-                <div>
-                  <div className="text-sm text-muted-foreground">WhatsApp</div>
-                  <div className="font-semibold">+91 98765 43210</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-12 p-6 glass border border-white/5 rounded-3xl bg-glow">
-               <p className="italic text-muted-foreground text-sm">
-                 "Trusted for building scalable AI solutions and intelligent software systems for the modern era."
-               </p>
+              ))}
             </div>
           </div>
 
-          <div className="lg:w-1/2">
-            <div className="glass p-8 md:p-10 rounded-[2.5rem] border border-white/5 shadow-2xl relative">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="glass-card p-10 rounded-[2rem]">
+            <h3 className="text-xl font-black mb-8">Send Us a Message</h3>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="name"
+                    name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground">First Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="John Doe" {...field} className="glass border-white/10 h-12" />
+                          <Input placeholder="John" {...field} className="bg-background/50 border-border h-12 rounded-xl focus:border-primary" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -126,54 +124,88 @@ export function Contact() {
                   />
                   <FormField
                     control={form.control}
-                    name="email"
+                    name="lastName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground">Last Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="john@example.com" {...field} className="glass border-white/10 h-12" />
+                          <Input placeholder="Doe" {...field} className="bg-background/50 border-border h-12 rounded-xl focus:border-primary" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Message</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Tell us about your project..." 
-                            {...field} 
-                            className="glass border-white/10 min-h-[150px] resize-none" 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button 
-                    type="submit" 
-                    className="w-full h-14 rounded-2xl text-lg font-bold bg-primary hover:bg-primary/90"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Processing..." : "Send Message"}
-                    <Send className="ml-2 w-5 h-5" />
-                  </Button>
-                </form>
-              </Form>
-
-              {aiDraft && (
-                <div className="mt-6 p-4 rounded-xl bg-primary/10 border border-primary/20 animate-fade-in-up">
-                  <p className="text-xs font-bold text-primary mb-2 uppercase tracking-widest">AI Categorization Success</p>
-                  <p className="text-sm text-foreground/80 leading-relaxed italic">
-                    "Thank you for reaching out! We've received your inquiry and our AI has already pre-processed it for our engineering team."
-                  </p>
                 </div>
-              )}
-            </div>
+                
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground">Email Address</FormLabel>
+                      <FormControl>
+                        <Input placeholder="john@company.com" {...field} className="bg-background/50 border-border h-12 rounded-xl focus:border-primary" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="service"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground">Service Interested In</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-background/50 border-border h-12 rounded-xl focus:ring-primary">
+                            <SelectValue placeholder="Choose a service..." />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-card border-border">
+                          <SelectItem value="agent">Agentic AI System</SelectItem>
+                          <SelectItem value="bot">Telegram / Email Bot</SelectItem>
+                          <SelectItem value="chat">Customer Care Chatbot</SelectItem>
+                          <SelectItem value="ecom">E-Commerce Platform</SelectItem>
+                          <SelectItem value="dashboard">Analytics Dashboard</SelectItem>
+                          <SelectItem value="builder">Website Builder</SelectItem>
+                          <SelectItem value="research">ML/DL Research</SelectItem>
+                          <SelectItem value="custom">Custom / Enterprise</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-black uppercase tracking-widest text-muted-foreground">About your project</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Describe what you want to build..." 
+                          {...field} 
+                          className="bg-background/50 border-border min-h-[120px] rounded-xl focus:border-primary" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button 
+                  type="submit" 
+                  className="w-full h-14 rounded-full text-lg font-black bg-primary text-background hover:bg-secondary transition-all"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Sending..." : "Send Message →"}
+                </Button>
+              </form>
+            </Form>
           </div>
         </div>
       </div>

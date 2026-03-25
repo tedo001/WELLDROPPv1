@@ -1,95 +1,56 @@
-
 "use client"
 
-import * as React from "react"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { ExternalLink, Search } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import { Star } from "lucide-react"
 
-const projects = [
+const testimonials = [
   {
-    id: 1,
-    title: "AI Customer Support Bot",
-    category: "AI",
-    description: "A comprehensive support automation platform reducing response times by 90%.",
-    tech: ["Next.js", "Gemini", "Firebase"],
-    image: "https://picsum.photos/seed/p1/600/400"
+    quote: "Welldropp's Telegram bot transformed our customer service. Response time dropped from 6 hours to under 30 seconds. Absolutely wild ROI.",
+    author: "Ravi Kumar",
+    role: "CEO, RetailPlus India",
+    initials: "RK"
   },
   {
-    id: 2,
-    title: "Smart Data Dashboard",
-    category: "Analytics",
-    description: "Real-time enterprise analytics with predictive forecasting and interactive visualization.",
-    tech: ["React", "Recharts", "Node.js"],
-    image: "https://picsum.photos/seed/p2/600/400"
+    quote: "The e-commerce platform they built is rock solid. AI recommendations alone increased our average order value by 34% in the first month.",
+    author: "Sneha Mehta",
+    role: "Founder, StyleKart",
+    initials: "SM"
   },
   {
-    id: 3,
-    title: "Automated Workflow System",
-    category: "Automation",
-    description: "End-to-end business process automation connecting legacy systems to cloud AI.",
-    tech: ["Python", "FastAPI", "Docker"],
-    image: "https://picsum.photos/seed/p3/600/400"
+    quote: "Their agentic AI system runs our entire onboarding pipeline autonomously. We went from 3 staff doing manual work to zero. Game changer.",
+    author: "Arjun Pillai",
+    role: "CTO, NexaFlow SaaS",
+    initials: "AP"
   }
 ]
 
 export function Portfolio() {
-  const [filter, setFilter] = React.useState("All")
-
-  const filteredProjects = filter === "All" 
-    ? projects 
-    : projects.filter(p => p.category === filter)
-
   return (
     <section id="portfolio" className="py-24 bg-background">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
-          <div>
-            <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4">
-              Featured <span className="text-gradient">Portfolio</span>
-            </h2>
-            <p className="text-muted-foreground">Showcasing our technical expertise across various industries.</p>
-          </div>
-          
-          <div className="flex flex-wrap gap-2">
-            {["All", "AI", "Analytics", "Automation"].map((cat) => (
-              <Button
-                key={cat}
-                variant={filter === cat ? "default" : "outline"}
-                onClick={() => setFilter(cat)}
-                className="rounded-full"
-              >
-                {cat}
-              </Button>
-            ))}
-          </div>
+        <div className="mb-16">
+          <p className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-3">What Clients Say</p>
+          <h2 className="text-4xl md:text-5xl font-black mb-4">Results that speak<br />for themselves.</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
-            <div key={project.id} className="group glass-card rounded-3xl overflow-hidden border border-white/5 hover:border-primary/50 transition-all duration-500">
-              <div className="relative h-64 overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <Button variant="secondary" className="rounded-full gap-2 font-semibold">
-                    View Details <ExternalLink size={16} />
-                  </Button>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {testimonials.map((t) => (
+            <div key={t.author} className="glass-card p-10 rounded-2xl flex flex-col hover:border-primary/30 transition-all">
+              <div className="flex gap-1 mb-6">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} className="w-4 h-4 fill-yellow-500 text-yellow-500" />
+                ))}
               </div>
-              <div className="p-8">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map(t => (
-                    <Badge key={t} variant="secondary" className="bg-white/5 text-xs text-secondary">{t}</Badge>
-                  ))}
+              <p className="text-base font-medium italic text-foreground/90 leading-relaxed mb-8 flex-grow">
+                "{t.quote}"
+              </p>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-black text-sm">
+                  {t.initials}
                 </div>
-                <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
-                <p className="text-muted-foreground text-sm line-clamp-2">{project.description}</p>
+                <div>
+                  <div className="font-black text-sm">{t.author}</div>
+                  <div className="text-xs text-muted-foreground font-bold uppercase tracking-wider">{t.role}</div>
+                </div>
               </div>
             </div>
           ))}

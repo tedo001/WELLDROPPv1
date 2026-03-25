@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Check } from "lucide-react"
@@ -8,76 +7,77 @@ import { cn } from "@/lib/utils"
 const plans = [
   {
     name: "Basic",
-    price: "₹2,499",
-    description: "Perfect for small projects",
-    features: ["Standard Landing Page", "Responsive Design", "3 Revision Rounds", "Basic SEO Optimization", "Email Support"],
+    price: "₹2,999",
+    description: "For solo founders and micro-businesses testing AI automation.",
+    features: ["1 Chatbot Integration", "Telegram or Email Bot", "2,000 AI interactions/mo", "Basic Analytics", "Email Support"],
     popular: false
   },
   {
-    name: "Standard",
+    name: "Starter",
     price: "₹9,999",
-    description: "Ideal for growing startups",
-    features: ["Custom Web Application", "AI Chatbot Integration", "User Authentication", "Dashboard Access", "Priority Support"],
+    description: "For small businesses ready to automate support and operations.",
+    features: ["2 AI Agents", "Telegram + Email Bot", "Customer Care Chatbot", "15,000 AI interactions/mo", "Priority Email Support"],
+    popular: false
+  },
+  {
+    name: "Growth",
+    price: "₹29,999",
+    description: "For scaling companies that need serious AI infrastructure.",
+    features: ["5 AI Agents (custom)", "Full E-Commerce Platform", "Advanced Dashboard", "50,000 AI interactions/mo", "Website Builder Access", "24/7 Priority Support"],
     popular: true
   },
   {
-    name: "Premium",
-    price: "₹29,999",
-    description: "Enterprise grade solutions",
-    features: ["Custom AI Agent Training", "Full Data Automation", "Advanced Analytics", "Dedicated Project Manager", "24/7 Support"],
-    popular: false
-  },
-  {
-    name: "Custom",
-    price: "Contact Us",
-    description: "Bespoke systems & research",
-    features: ["Hardware AI Integration", "Complex Research & DL", "Dedicated R&D Team", "White-label Solutions", "On-site Integration"],
+    name: "Enterprise",
+    price: "Custom",
+    description: "Full-suite AI with ML research, custom models, and dedicated team.",
+    features: ["Unlimited AI Agents", "Custom ML/DL Models", "Dedicated Infrastructure", "Unlimited interactions", "On-call Engineering Team", "SLA & Compliance"],
     popular: false
   }
 ]
 
 export function Pricing() {
   return (
-    <section id="pricing" className="py-24 bg-black/20">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4">
-            Simple <span className="text-gradient">Pricing</span>
-          </h2>
-          <p className="text-muted-foreground">Transparent pricing tailored to your scale and technical requirements.</p>
+    <section id="pricing" className="py-24 bg-card/10">
+      <div className="container mx-auto px-6 text-center">
+        <div className="mb-16">
+          <p className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-3">Pricing</p>
+          <h2 className="text-4xl md:text-5xl font-black mb-4">Simple, transparent pricing</h2>
+          <p className="text-muted-foreground max-w-lg mx-auto">
+            No hidden fees. Scale up or down as your business grows.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {plans.map((plan) => (
             <div
               key={plan.name}
               className={cn(
-                "relative p-8 rounded-[2rem] glass-card flex flex-col h-full transition-all duration-500",
-                plan.popular ? "border-primary/50 shadow-[0_0_40px_-15px_rgba(153,77,255,0.3)] scale-105 z-10" : "border-white/5"
+                "relative glass-card p-10 rounded-2xl flex flex-col text-left transition-all",
+                plan.popular ? "border-primary bg-gradient-to-br from-primary/5 to-primary/10 shadow-[0_0_45px_rgba(0,230,118,0.15)]" : "border-border"
               )}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold py-1 px-4 rounded-full shadow-lg">
-                  MOST POPULAR
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-background font-black text-[10px] py-1 px-4 rounded-full uppercase tracking-widest shadow-lg">
+                  Most Popular
                 </div>
               )}
-              
+
               <div className="mb-8">
-                <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-4xl font-bold">{plan.price}</span>
-                  {plan.name !== "Custom" && <span className="text-muted-foreground">/project</span>}
+                <p className={cn("text-xs font-black uppercase tracking-widest mb-4", plan.popular ? "text-primary" : "text-muted-foreground")}>
+                  {plan.name}
+                </p>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-black">{plan.price}</span>
+                  {plan.price !== "Custom" && <span className="text-muted-foreground text-sm">/mo</span>}
                 </div>
-                <p className="text-sm text-muted-foreground">{plan.description}</p>
+                <p className="text-xs text-muted-foreground mt-4 leading-relaxed">{plan.description}</p>
               </div>
 
-              <div className="space-y-4 mb-8 flex-grow">
+              <div className="space-y-4 mb-10 flex-grow">
                 {plan.features.map((feature) => (
                   <div key={feature} className="flex items-start gap-3 text-sm">
-                    <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-primary" />
-                    </div>
-                    <span>{feature}</span>
+                    <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                    <span className="text-foreground/80">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -85,11 +85,11 @@ export function Pricing() {
               <Button
                 variant={plan.popular ? "default" : "outline"}
                 className={cn(
-                  "w-full rounded-2xl h-12 font-semibold",
-                  plan.popular ? "bg-primary hover:bg-primary/90" : "hover:bg-white/5"
+                  "w-full rounded-full h-12 font-black transition-all",
+                  plan.popular ? "bg-primary text-background hover:bg-secondary" : "border-border hover:border-primary hover:text-primary"
                 )}
               >
-                {plan.name === "Custom" ? "Contact Us" : "Get Started"}
+                {plan.price === "Custom" ? "Contact Sales" : "Get Started"}
               </Button>
             </div>
           ))}

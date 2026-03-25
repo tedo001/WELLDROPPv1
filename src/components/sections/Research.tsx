@@ -1,86 +1,64 @@
-
 "use client"
 
-import { Binary, Microchip, Layers } from "lucide-react"
+import { Brain, Settings, Sparkles } from "lucide-react"
 
-const researchAreas = [
+const articles = [
   {
-    title: "Machine Learning & DL",
-    description: "Exploring advanced architectures for neural networks and predictive modeling.",
-    icon: Binary
+    title: "Building Behavior-Aware Neural Networks for Real-Time Threat Detection",
+    excerpt: "How custom MLP classifiers outperform traditional CV pipelines in edge deployment scenarios...",
+    category: "Deep Learning",
+    date: "Mar 2025",
+    readTime: "8 min read",
+    icon: Brain
   },
   {
-    title: "AI & Chip Integration",
-    description: "Optimizing AI models for hardware acceleration and edge computing.",
-    icon: Microchip
+    title: "Deploying Agentic AI in Production: A Framework for Reliability at Scale",
+    excerpt: "A practical guide to building agent pipelines that don't break at 3AM when you're asleep...",
+    category: "MLOps",
+    date: "Feb 2025",
+    readTime: "12 min read",
+    icon: Settings
   },
   {
-    title: "Tensor Computing",
-    description: "Researching high-dimensional data processing for next-gen computation.",
-    icon: Layers
+    title: "Why Small Specialized Models Will Dominate Business AI in 2025",
+    excerpt: "A finely tuned 7B model on your own infra can outperform GPT-4 for your specific use case...",
+    category: "AI Research",
+    date: "Jan 2025",
+    readTime: "10 min read",
+    icon: Sparkles
   }
 ]
 
 export function Research() {
   return (
-    <section id="research" className="py-24 relative bg-black/40 border-y border-white/5 overflow-hidden">
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="grid grid-cols-12 h-full w-full">
-          {Array.from({ length: 48 }).map((_, i) => (
-            <div key={i} className="border-[0.5px] border-white/10" />
-          ))}
+    <section id="research" className="py-24 bg-card/10">
+      <div className="container mx-auto px-6">
+        <div className="mb-16">
+          <p className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-3">Research & Insights</p>
+          <h2 className="text-4xl md:text-5xl font-black mb-4">Latest from the<br />Welldropp Lab</h2>
         </div>
-      </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
-          <div className="lg:w-1/2">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold mb-6">
-              Innovation <br />
-              <span className="text-gradient">Research Lab</span>
-            </h2>
-            <p className="text-muted-foreground mb-8 text-lg">
-              At WELLDROPP, we don't just build software; we pioneer the future. Our research team focuses on the intersection of hardware, mathematics, and artificial intelligence.
-            </p>
-            
-            <div className="space-y-6">
-              {researchAreas.map((area) => (
-                <div key={area.title} className="flex gap-4 p-4 glass rounded-2xl border border-white/5 hover:border-primary/30 transition-all cursor-default group">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                    <area.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-1">{area.title}</h4>
-                    <p className="text-sm text-muted-foreground">{area.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="lg:w-1/2 relative">
-            <div className="aspect-square glass rounded-[40px] flex items-center justify-center p-12 relative overflow-hidden group">
-              {/* Futuristic Node Visual */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-64 h-64 rounded-full border border-primary/20 animate-[spin_10s_linear_infinite]" />
-                <div className="absolute w-48 h-48 rounded-full border border-secondary/20 animate-[spin_6s_linear_infinite_reverse]" />
-                <div className="absolute w-24 h-24 bg-primary/20 rounded-full blur-[40px] animate-pulse" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {articles.map((article) => (
+            <div key={article.title} className="group glass-card rounded-2xl overflow-hidden hover:border-primary/40 transition-all">
+              <div className="h-48 flex items-center justify-center bg-gradient-to-br from-background to-card group-hover:from-primary/5 group-hover:to-card transition-all">
+                <article.icon className="w-16 h-16 text-primary/20 group-hover:text-primary/40 transition-all group-hover:scale-110" />
               </div>
-              
-              <div className="relative z-10 text-center">
-                <div className="text-8xl font-headline font-bold text-white/5 mb-4">WELLDROPP</div>
-                <div className="text-primary font-code text-sm tracking-widest animate-pulse">SYSTEMS_OPTIMIZED</div>
-                <div className="mt-8 grid grid-cols-2 gap-4">
-                  <div className="glass p-4 rounded-xl text-xs font-code">
-                    <span className="text-secondary">#</span> TENSOR_READY
-                  </div>
-                  <div className="glass p-4 rounded-xl text-xs font-code">
-                    <span className="text-secondary">#</span> NEURAL_SYNC
-                  </div>
+              <div className="p-8">
+                <p className="text-primary text-[10px] font-black uppercase tracking-widest mb-3">{article.category}</p>
+                <h3 className="text-lg font-black mb-4 group-hover:text-primary transition-colors leading-snug">
+                  {article.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                  {article.excerpt}
+                </p>
+                <div className="pt-6 border-t border-border flex justify-between items-center text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                  <span>{article.date}</span>
+                  <span className="text-primary">{article.readTime} →</span>
                 </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,107 +1,87 @@
-
 "use client"
 
-import { 
-  Bot, 
-  Cpu, 
-  Layout, 
-  BarChart3, 
-  Database, 
-  Globe, 
-  Zap, 
-  LineChart 
-} from "lucide-react"
-import { cn } from "@/lib/utils"
+import { Bot, MessageSquare, Headset, ShoppingCart, BarChart3, Globe, Cpu, Rocket } from "lucide-react"
 
 const services = [
   {
-    title: "AI Agents Development",
-    description: "Autonomous software agents that perform complex tasks with minimal human intervention.",
+    title: "Agentic AI Systems",
+    description: "Autonomous agents that handle multi-step tasks, make decisions, and execute workflows without human intervention.",
     icon: Bot,
-    color: "from-purple-500 to-indigo-500"
+    tag: "Autonomous"
   },
   {
-    title: "AI Chatbot Services",
-    description: "Next-gen 24/7 customer care bots powered by advanced natural language processing.",
-    icon: Zap,
-    color: "from-blue-500 to-cyan-500"
+    title: "Telegram & Email AI",
+    description: "Smart Telegram bots and email agents powered by LLMs — handling queries, routing, and responses automatically.",
+    icon: MessageSquare,
+    tag: "Communication"
   },
   {
-    title: "LLM Solutions",
-    description: "Custom Large Language Model implementations, fine-tuning, and pipeline optimization.",
-    icon: Cpu,
-    color: "from-pink-500 to-rose-500"
+    title: "Customer Care Chatbots",
+    description: "Integrated 24/7 chatbots embedded into your product — live chat, FAQ resolution, lead capture, and ticket handling.",
+    icon: Headset,
+    tag: "24/7 Live"
   },
   {
-    title: "E-commerce Applications",
-    description: "Scalable digital stores built with conversion-focused design and modern tech stacks.",
-    icon: Layout,
-    color: "from-amber-500 to-orange-500"
+    title: "E-Commerce Platform",
+    description: "Full-stack e-commerce builds with AI-powered recommendations, inventory management, and conversion optimization.",
+    icon: ShoppingCart,
+    tag: "Full-Stack"
   },
   {
-    title: "Data Analytics Dashboards",
-    description: "Interactive visualization tools that transform raw data into actionable business insights.",
+    title: "Analytics Dashboard",
+    description: "Real-time business dashboards with AI-driven insights, KPI tracking, and automated reporting pipelines.",
     icon: BarChart3,
-    color: "from-green-500 to-emerald-500"
+    tag: "Real-Time"
   },
   {
-    title: "Data Management Systems",
-    description: "Robust architectures for storing, processing, and securing enterprise-level data.",
-    icon: Database,
-    color: "from-blue-600 to-blue-400"
-  },
-  {
-    title: "Website Development",
-    description: "High-performance, responsive websites designed for premium brands and startups.",
+    title: "AI Website Builder",
+    description: "Drag-and-drop website builder augmented with AI generation — create, customize, and deploy in hours, not weeks.",
     icon: Globe,
-    color: "from-indigo-600 to-purple-600"
+    tag: "No-Code"
   },
   {
-    title: "Data Automation Apps",
-    description: "Custom scripts and applications to automate repetitive data workflows.",
-    icon: LineChart,
-    color: "from-cyan-600 to-blue-600"
+    title: "ML / DL Research",
+    description: "Applied ML and deep learning R&D — model fine-tuning, architecture research, and custom model deployment.",
+    icon: Cpu,
+    tag: "Research"
+  },
+  {
+    title: "Coming Soon",
+    description: "Multi-modal models, voice AI, and autonomous pipelines — more products in active development.",
+    icon: Rocket,
+    tag: "Future",
+    isComingSoon: true
   }
 ]
 
 export function Services() {
   return (
-    <section id="services" className="py-24 relative overflow-hidden bg-background">
+    <section id="services" className="py-24 bg-card/20 border-y border-border">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4">
-            Our <span className="text-gradient">Core Services</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            We offer a comprehensive suite of AI and software solutions designed to propel your business into the future.
+        <div className="mb-16">
+          <p className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-3">What We Build</p>
+          <h2 className="text-4xl md:text-5xl font-black mb-4">AI solutions,<br />precisely engineered</h2>
+          <p className="text-muted-foreground max-w-lg">
+            From conversational agents to full-stack platforms — we build and deploy AI that works while you sleep.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map((service) => (
             <div
               key={service.title}
-              className="group glass-card p-8 rounded-3xl hover:-translate-y-2 transition-all duration-500 cursor-pointer overflow-hidden relative"
+              className={`group glass-card p-8 rounded-2xl relative overflow-hidden transition-all hover:-translate-y-1 ${service.isComingSoon ? 'opacity-60 border-dashed' : ''}`}
             >
-              {/* Card Glow Effect */}
-              <div className={cn(
-                "absolute -right-4 -top-4 w-24 h-24 blur-[60px] opacity-20 group-hover:opacity-60 transition-opacity bg-gradient-to-br",
-                service.color
-              )} />
-
-              <div className={cn(
-                "w-12 h-12 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br transition-transform duration-500 group-hover:scale-110",
-                service.color
-              )}>
-                <service.icon className="text-white w-6 h-6" />
-              </div>
-
-              <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                {service.title}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              
+              <service.icon className="w-10 h-10 text-primary mb-6" />
+              <h3 className="text-lg font-black mb-3">{service.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
                 {service.description}
               </p>
+              <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider">
+                {service.tag}
+              </span>
             </div>
           ))}
         </div>

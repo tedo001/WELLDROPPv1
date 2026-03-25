@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -9,9 +8,9 @@ import { cn } from "@/lib/utils"
 
 const navLinks = [
   { name: "Services", href: "#services" },
-  { name: "Portfolio", href: "#portfolio" },
-  { name: "Research", href: "#research" },
+  { name: "About", href: "#about" },
   { name: "Pricing", href: "#pricing" },
+  { name: "Research", href: "#research" },
   { name: "Contact", href: "#contact" },
 ]
 
@@ -31,17 +30,14 @@ export function Navbar() {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4",
-        scrolled ? "bg-background/80 backdrop-blur-md border-b border-white/10 py-3" : "bg-transparent"
+        scrolled ? "bg-background/90 backdrop-blur-xl border-b border-border py-3" : "bg-transparent"
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
-            <span className="font-headline font-bold text-xl">W</span>
+          <div className="text-primary font-headline font-black text-2xl tracking-tighter">
+            Well<span className="text-foreground">dropp</span>
           </div>
-          <span className="font-headline font-bold text-2xl tracking-tight">
-            WELLDROPP
-          </span>
         </Link>
 
         {/* Desktop Menu */}
@@ -50,14 +46,13 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 relative group"
+              className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors duration-200"
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
             </Link>
           ))}
-          <Button variant="default" className="bg-primary hover:bg-primary/90 rounded-full px-6 shadow-glow">
-            Get Started
+          <Button className="bg-primary text-background hover:bg-secondary font-bold rounded-full px-6 transition-all">
+            Get Started →
           </Button>
         </div>
 
@@ -66,14 +61,14 @@ export function Navbar() {
           className="md:hidden text-foreground"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       <div
         className={cn(
-          "md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-white/10 transition-all duration-300 overflow-hidden",
+          "md:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-xl border-b border-border transition-all duration-300 overflow-hidden",
           isOpen ? "max-h-[400px] py-6" : "max-h-0"
         )}
       >
@@ -82,13 +77,13 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-lg font-medium hover:text-primary"
+              className="text-lg font-bold hover:text-primary"
               onClick={() => setIsOpen(false)}
             >
               {link.name}
             </Link>
           ))}
-          <Button className="w-full mt-2 rounded-full">Get Started</Button>
+          <Button className="w-full mt-2 rounded-full font-bold">Get Started →</Button>
         </div>
       </div>
     </nav>
