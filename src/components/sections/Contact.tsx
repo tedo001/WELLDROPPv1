@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -28,7 +29,7 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react"
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
-  lastName: z.string().optional(),
+  lastName: z.string().min(1, { message: "Last name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   phone: z.string().optional(),
   service: z.string().min(1, { message: "Please select a service" }),
@@ -38,6 +39,11 @@ const formSchema = z.object({
 export function Contact() {
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,7 +61,7 @@ export function Contact() {
     setIsSubmitting(true)
     try {
       const result = await aiLeadCategorizationAndResponse({
-        name: `${values.firstName} ${values.lastName || ''}`.trim(),
+        name: `${values.firstName} ${values.lastName}`.trim(),
         email: values.email,
         phone: values.phone,
         service: values.service,
@@ -76,6 +82,14 @@ export function Contact() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  if (!mounted) {
+    return (
+      <section id="contact" className="py-24 bg-background min-h-[600px] flex items-center justify-center">
+        <div className="text-primary font-black animate-pulse">Loading Form...</div>
+      </section>
+    )
   }
 
   return (

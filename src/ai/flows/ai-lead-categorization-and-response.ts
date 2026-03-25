@@ -2,16 +2,12 @@
 'use server';
 /**
  * @fileOverview This file implements a Genkit flow for categorizing lead inquiries,
- * generating draft responses, and sending an actual email notification via Nodemailer.
- *
- * - aiLeadCategorizationAndResponse - The main function to call this flow.
- * - AILeadCategorizationAndResponseInput - The input type for the flow.
- * - AILeadCategorizationAndResponseOutput - The output type for the flow.
+ * generating draft responses, and sending an actual email notification.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import nodemailer from 'nodemailer';
+import { sendEmail } from '@/lib/mail';
 
 const AILeadCategorizationAndResponseInputSchema = z.object({
   name: z.string().describe('The name of the lead submitting the contact form.'),
@@ -93,17 +89,7 @@ const aiLeadCategorizationAndResponseFlow = ai.defineFlow(
     }
 
     try {
-      // Configuration for Nodemailer using Gmail SMTP
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.GMAIL_USER || 'welldropp.tech@gmail.com',
-          pass: process.env.GMAIL_APP_PASSWORD, // Must be a 16-character App Password
-        },
-      });
-
-      const mailOptions = {
-        from: `"WELLDROPP Lead System" <${process.env.GMAIL_USER || 'welldropp.tech@gmail.com'}>`,
+      await sendEmail({
         to: 'welldropp.tech@gmail.com',
         subject: `[New Lead] ${output.category} Inquiry from ${input.name}`,
         text: output.adminNotification,
@@ -126,10 +112,7 @@ const aiLeadCategorizationAndResponseFlow = ai.defineFlow(
             </div>
           </div>
         `,
-      };
-
-      await transporter.sendMail(mailOptions);
-      console.log('--- EMAIL SENT TO ADMIN ---');
+      });
       
       return {
         ...output,
@@ -137,7 +120,6 @@ const aiLeadCategorizationAndResponseFlow = ai.defineFlow(
       };
     } catch (error) {
       console.error('Failed to send email:', error);
-      // We still return the output but mark sentToEmail as false
       return {
         ...output,
         sentToEmail: false,
