@@ -21,21 +21,21 @@ export function Footer() {
           <div>
             <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-foreground mb-6">Services</h4>
             <ul className="space-y-4 text-sm font-semibold text-muted-foreground">
-              <li><Link href="#" className="hover:text-primary transition-colors">Agentic AI</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Telegram Bots</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Chatbots</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">E-Commerce</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Dashboard</Link></li>
+              <li><Link href="#services" className="hover:text-primary transition-colors">Agentic AI</Link></li>
+              <li><Link href="#services" className="hover:text-primary transition-colors">Telegram Bots</Link></li>
+              <li><Link href="#services" className="hover:text-primary transition-colors">Chatbots</Link></li>
+              <li><Link href="#services" className="hover:text-primary transition-colors">E-Commerce</Link></li>
+              <li><Link href="#services" className="hover:text-primary transition-colors">Dashboard</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-foreground mb-6">Company</h4>
             <ul className="space-y-4 text-sm font-semibold text-muted-foreground">
-              <li><Link href="#" className="hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Research Lab</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Careers</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Blog</Link></li>
+              <li><Link href="#about" className="hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link href="#research" className="hover:text-primary transition-colors">Research Lab</Link></li>
+              <li><Link href="#contact" className="hover:text-primary transition-colors">Careers</Link></li>
+              <li><Link href="#research" className="hover:text-primary transition-colors">Blog</Link></li>
             </ul>
           </div>
 

@@ -92,7 +92,7 @@ export function Contact() {
                 { icon: Mail, value: "hello@welldropp.ai" },
                 { icon: Phone, value: "+91 87788 60376" },
                 { icon: MapPin, value: "Tamil Nadu, India 🇮🇳" },
-                { icon: Clock, value: "Mon–Sat, 9AM–7PM IST" },
+                { icon: Clock, value: "Mon-Sat, 9AM-10PM" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-primary/5 border border-primary/20 rounded-xl flex items-center justify-center">
