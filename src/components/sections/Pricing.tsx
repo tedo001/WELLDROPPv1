@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -83,13 +84,16 @@ export function Pricing() {
               </div>
 
               <Button
+                asChild
                 variant={plan.popular ? "default" : "outline"}
                 className={cn(
                   "w-full rounded-full h-12 font-black transition-all",
                   plan.popular ? "bg-primary text-background hover:bg-secondary" : "border-border hover:border-primary hover:text-primary"
                 )}
               >
-                {plan.price === "Custom" ? "Contact Sales" : "Get Started"}
+                <Link href="#contact">
+                  {plan.price === "Custom" ? "Contact Sales" : "Get Started"}
+                </Link>
               </Button>
             </div>
           ))}

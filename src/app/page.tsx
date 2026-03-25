@@ -8,6 +8,8 @@ import { Testimonials } from "@/components/sections/Testimonials"
 import { Pricing } from "@/components/sections/Pricing"
 import { Contact } from "@/components/sections/Contact"
 import { Toaster } from "@/components/ui/toaster"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
@@ -24,11 +26,11 @@ export default function Home() {
               <p className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-3">Who We Are</p>
               <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">Built by builders,<br />for builders.</h2>
               <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-                Welldropp was born from a simple belief: AI should be accessible, precise, and actually useful. We engineer intelligent systems that solve real business problems.
+                Welldropp was born from a simple belief: AI should be accessible, precision-engineered, and actually useful. We build intelligent systems that solve real-world operational challenges.
               </p>
-              <button className="bg-primary text-background font-black py-4 px-10 rounded-full hover:bg-secondary transition-all">
-                Partner With Us
-              </button>
+              <Button asChild className="bg-primary text-background font-black py-4 px-10 rounded-full hover:bg-secondary h-auto transition-all">
+                <Link href="#contact">Partner With Us</Link>
+              </Button>
             </div>
             
             <div className="lg:w-1/2">

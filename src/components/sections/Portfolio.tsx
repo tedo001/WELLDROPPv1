@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { ExternalLink, Github, ArrowRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -13,7 +14,8 @@ const projects = [
     description: "An autonomous multi-agent system for supply chain optimization, reducing manual oversight by 85%.",
     image: placeholderData.placeholderImages.find(img => img.id === "project-workflow")?.imageUrl,
     tags: ["Genkit", "Next.js", "Python"],
-    link: "#"
+    github: "#",
+    external: "#"
   },
   {
     title: "VeloCart AI",
@@ -21,7 +23,8 @@ const projects = [
     description: "High-conversion platform with integrated predictive search and personalized recommendation engine.",
     image: placeholderData.placeholderImages.find(img => img.id === "project-chatbot")?.imageUrl,
     tags: ["React", "Stripe", "AI"],
-    link: "#"
+    github: "#",
+    external: "#"
   },
   {
     title: "InsightFlow",
@@ -29,7 +32,8 @@ const projects = [
     description: "Real-time data visualization tool for enterprise SaaS, powered by an LLM-driven insight generator.",
     image: placeholderData.placeholderImages.find(img => img.id === "project-dashboard")?.imageUrl,
     tags: ["Recharts", "Cloud Run", "BigQuery"],
-    link: "#"
+    github: "#",
+    external: "#"
   }
 ]
 
@@ -45,8 +49,8 @@ export function Portfolio() {
               A selection of our latest deployments across Agentic AI, high-scale E-Commerce, and deep data analytics.
             </p>
           </div>
-          <Button variant="outline" className="border-border hover:border-primary hover:text-primary rounded-full px-8 h-12 font-bold transition-all">
-            View All Projects <ArrowRight className="ml-2 w-4 h-4" />
+          <Button asChild variant="outline" className="border-border hover:border-primary hover:text-primary rounded-full px-8 h-12 font-bold transition-all">
+            <Link href="#contact">View All Projects <ArrowRight className="ml-2 w-4 h-4" /></Link>
           </Button>
         </div>
 
@@ -63,11 +67,15 @@ export function Portfolio() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                   <div className="flex gap-3">
-                    <Button size="icon" variant="secondary" className="rounded-xl h-10 w-10 bg-white text-black hover:bg-primary hover:text-white transition-colors">
-                      <ExternalLink className="w-4 h-4" />
+                    <Button asChild size="icon" variant="secondary" className="rounded-xl h-10 w-10 bg-white text-black hover:bg-primary hover:text-white transition-colors">
+                      <Link href={project.external} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-4 h-4" />
+                      </Link>
                     </Button>
-                    <Button size="icon" variant="secondary" className="rounded-xl h-10 w-10 bg-white text-black hover:bg-primary hover:text-white transition-colors">
-                      <Github className="w-4 h-4" />
+                    <Button asChild size="icon" variant="secondary" className="rounded-xl h-10 w-10 bg-white text-black hover:bg-primary hover:text-white transition-colors">
+                      <Link href={project.github} target="_blank" rel="noopener noreferrer">
+                        <Github className="w-4 h-4" />
+                      </Link>
                     </Button>
                   </div>
                 </div>

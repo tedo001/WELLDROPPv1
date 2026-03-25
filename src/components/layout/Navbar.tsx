@@ -52,8 +52,8 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
-          <Button className="bg-primary text-background hover:bg-secondary font-bold rounded-full px-6 transition-all">
-            Get Started →
+          <Button asChild className="bg-primary text-background hover:bg-secondary font-bold rounded-full px-6 transition-all">
+            <Link href="#contact">Get Started →</Link>
           </Button>
         </div>
 
@@ -84,7 +84,9 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
-          <Button className="w-full mt-2 rounded-full font-bold">Get Started →</Button>
+          <Button asChild className="w-full mt-2 rounded-full font-bold">
+            <Link href="#contact" onClick={() => setIsOpen(false)}>Get Started →</Link>
+          </Button>
         </div>
       </div>
     </nav>

@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 
@@ -25,11 +26,11 @@ export function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up [animation-delay:450ms]">
-          <Button size="lg" className="bg-primary text-background hover:bg-secondary h-14 px-10 rounded-full text-lg font-black shadow-[0_0_28px_rgba(0,230,118,0.3)] hover:translate-y-[-2px] transition-all">
-            Explore Services
+          <Button asChild size="lg" className="bg-primary text-background hover:bg-secondary h-14 px-10 rounded-full text-lg font-black shadow-[0_0_28px_rgba(0,230,118,0.3)] hover:translate-y-[-2px] transition-all">
+            <Link href="#services">Explore Services</Link>
           </Button>
-          <Button size="lg" variant="outline" className="h-14 px-10 rounded-full text-lg font-bold border-border hover:border-primary hover:text-primary transition-all">
-            Talk to Us
+          <Button asChild size="lg" variant="outline" className="h-14 px-10 rounded-full text-lg font-bold border-border hover:border-primary hover:text-primary transition-all">
+            <Link href="#contact">Talk to Us</Link>
           </Button>
         </div>
 
