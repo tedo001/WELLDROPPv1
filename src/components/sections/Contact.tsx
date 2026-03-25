@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select"
 import { aiLeadCategorizationAndResponse } from "@/ai/flows/ai-lead-categorization-and-response"
 import { useToast } from "@/hooks/use-toast"
-import { Send, Mail, Phone, MapPin, Clock } from "lucide-react"
+import { Mail, Phone, MapPin, Clock } from "lucide-react"
 
 const formSchema = z.object({
   firstName: z.string().min(2, { message: "Required" }),
@@ -89,7 +89,7 @@ export function Contact() {
 
             <div className="space-y-6">
               {[
-                { icon: Mail, value: "hello@welldropp.ai" },
+                { icon: Mail, value: "welldropp.tech@gmail.com" },
                 { icon: Phone, value: "+91 87788 60376" },
                 { icon: MapPin, value: "Tamil Nadu, India 🇮🇳" },
                 { icon: Clock, value: "Mon-Sat, 9AM-10PM" },
