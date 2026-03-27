@@ -15,9 +15,9 @@ export default function Home() {
   return (
     <main className="flex flex-col min-h-screen">
       <Navbar />
-      
+
       <Hero />
-      
+
       {/* About Section */}
       <section id="about" className="py-24 bg-background">
         <div className="container mx-auto px-6">
@@ -32,7 +32,7 @@ export default function Home() {
                 <Link href="#contact">Partner With Us</Link>
               </Button>
             </div>
-            
+
             <div className="lg:w-1/2">
               <div className="glass-card p-12 rounded-[2.5rem] relative overflow-hidden group">
                 <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
@@ -66,7 +66,7 @@ export default function Home() {
       <Pricing />
       <Research />
       <Contact />
-      
+
       <Footer />
       <Toaster />
     </main>

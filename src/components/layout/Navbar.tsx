@@ -4,6 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Logo } from "@/components/ui/Logo"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
@@ -36,9 +37,7 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <div className="text-primary font-headline font-black text-2xl tracking-tighter">
-            Well<span className="text-foreground">dropp</span>
-          </div>
+          <Logo size="sm" />
         </Link>
 
         {/* Desktop Menu */}

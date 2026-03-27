@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import * as React from "react"
+import { Logo } from "@/components/ui/Logo"
 
 export function Footer() {
   const [year, setYear] = React.useState<number | null>(null)
@@ -16,9 +17,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16 mb-20">
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-6">
-              <div className="text-primary font-headline font-black text-2xl tracking-tighter">
-                Well<span className="text-foreground">dropp</span>
-              </div>
+              <Logo size="md" />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               Drop Smarter. Scale Faster. — AI solutions precisely engineered for modern businesses. From agents to e-commerce, we build it all.
