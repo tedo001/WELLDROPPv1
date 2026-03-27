@@ -94,14 +94,14 @@ export function Portfolio() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <div key={index} className="group flex flex-col relative glass-card rounded-[2rem] overflow-hidden hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(0,230,118,0.3)] transition-all duration-500 bg-card/40 border border-white/5 h-full">
+            <div key={index} className="group flex flex-col relative glass-card rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(0,230,118,0.3)] transition-all duration-500 bg-card/40 border border-white/5 h-full">
 
               {/* Live Indicator */}
-              <div className="absolute top-6 left-6 z-20 flex items-center gap-2 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-xs font-bold text-white uppercase tracking-wider">Live Project</span>
+              <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <span className="text-[10px] font-bold text-white uppercase tracking-wider">Live Project</span>
               </div>
 
               <Link href={project.external} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10">
@@ -110,7 +110,7 @@ export function Portfolio() {
 
               <div className="flex flex-col flex-1 relative z-0">
                 {/* Image Section */}
-                <div className="relative h-[300px] w-full shrink-0 overflow-hidden bg-muted/20">
+                <div className="relative h-48 w-full shrink-0 overflow-hidden bg-muted/20">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -120,26 +120,26 @@ export function Portfolio() {
 
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center pointer-events-none">
-                    <span className="bg-primary text-background font-black px-6 py-3 rounded-full flex items-center gap-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-[0_0_20px_rgba(0,230,118,0.4)]">
-                      Visit Live Website <ArrowRight className="w-4 h-4" />
+                    <span className="bg-primary text-background font-black px-4 py-2 rounded-full flex items-center gap-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-[0_0_20px_rgba(0,230,118,0.4)] text-xs">
+                      Visit Website <ArrowRight className="w-3 h-3" />
                     </span>
                   </div>
                 </div>
 
                 {/* Content Section */}
-                <div className="p-8 md:p-10 flex flex-col flex-1">
-                  <div className="mb-6">
-                    <p className="text-primary text-[10px] font-black uppercase tracking-widest mb-3">{project.category}</p>
-                    <h3 className="text-3xl font-black mb-4 group-hover:text-primary transition-colors">{project.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed text-[15px] group-hover:text-foreground transition-colors">
+                <div className="p-8 flex flex-col flex-1">
+                  <div className="mb-4">
+                    <p className="text-primary text-[10px] font-black uppercase tracking-widest mb-2">{project.category}</p>
+                    <h3 className="text-lg font-black mb-3 group-hover:text-primary transition-colors leading-snug">{project.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed group-hover:text-foreground transition-colors line-clamp-3">
                       {project.description}
                     </p>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-4 mt-auto pt-8 border-t border-border/50 relative z-20">
+                  <div className="flex flex-wrap items-center justify-between gap-4 mt-auto pt-6 border-t border-border/50 relative z-20">
                     <div className="flex flex-wrap gap-2">
-                      {project.tags.map(tag => (
-                        <Badge key={tag} variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-xs uppercase font-bold px-3 py-1">
+                      {project.tags.slice(0, 2).map(tag => (
+                        <Badge key={tag} variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-[10px] uppercase font-bold px-2 py-0.5">
                           {tag}
                         </Badge>
                       ))}
