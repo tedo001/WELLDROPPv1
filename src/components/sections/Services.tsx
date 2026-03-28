@@ -1,6 +1,6 @@
 "use client"
 
-import { Bot, MessageSquare, Headset, ShoppingCart, BarChart3, Globe, Cpu, Rocket } from "lucide-react"
+import { Bot, Server, Headset, ShoppingCart, BarChart3, Globe, Cpu, Rocket } from "lucide-react"
 
 const services = [
   {
@@ -10,10 +10,10 @@ const services = [
     tag: "Autonomous"
   },
   {
-    title: "Telegram & Email AI",
-    description: "Smart Telegram bots and email agents powered by LLMs — handling queries, routing, and responses automatically.",
-    icon: MessageSquare,
-    tag: "Communication"
+    title: "Webservice & APIs",
+    description: "Robust, scalable backend services and RESTful APIs built to power modern applications and AI integrations.",
+    icon: Server,
+    tag: "Scalable"
   },
   {
     title: "Customer Care Chatbots",
