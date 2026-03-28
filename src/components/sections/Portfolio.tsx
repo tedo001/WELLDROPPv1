@@ -94,7 +94,7 @@ export function Portfolio() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <div key={index} className="group flex flex-col relative glass-card rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(0,230,118,0.3)] transition-all duration-500 bg-card/40 border border-white/5 h-full">
 

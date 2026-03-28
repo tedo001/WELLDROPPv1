@@ -97,7 +97,7 @@ export function Contact() {
   return (
     <section id="contact" className="py-24 bg-background">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
           <div className="reveal">
             <p className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-3">Get In Touch</p>
             <h2 className="text-4xl md:text-5xl font-black mb-6">Let's build<br />something real.</h2>

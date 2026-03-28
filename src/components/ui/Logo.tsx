@@ -1,4 +1,5 @@
 import * as React from "react"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -7,52 +8,71 @@ export interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function Logo({ className, variant = "horizontal", size = "md", ...props }: LogoProps) {
+  const isVertical = variant === "vertical"
+  const isMarkOnly = variant === "mark"
+
+  // Image icon sizes
   const iconSizes = {
-    sm: 32,
-    md: 48,
-    lg: 120
+    sm: 40,
+    md: 56,
+    lg: 120,
   }
 
   const iconDim = iconSizes[size]
 
+  // Text sizes - added responsive mapping
+  const textClasses = {
+    sm: "text-lg md:text-xl",
+    md: "text-2xl md:text-3xl",
+    lg: "text-4xl md:text-5xl",
+  }
+
+  const markContent = (
+    <div
+      className="flex items-center justify-center flex-shrink-0"
+      style={{ width: "clamp(32px, 5vw, " + iconDim + "px)", height: "clamp(32px, 5vw, " + iconDim + "px)" }}
+    >
+      <Image
+        src="/welldropp-mark.png"
+        alt="WellDropp Logo Mark"
+        width={iconDim * 1.5}
+        height={iconDim * 1.5}
+        className="object-contain"
+        style={{
+          filter: "drop-shadow(0 0 8px rgba(0, 230, 118, 0.2))",
+          maxWidth: "100%",
+          maxHeight: "100%",
+        }}
+        priority
+      />
+    </div>
+  )
+
+  if (isMarkOnly) {
+    return (
+      <div className={cn("flex flex-shrink-0", className)} {...props}>
+        {markContent}
+      </div>
+    )
+  }
+
   return (
-    <div 
+    <div
       className={cn(
-        "flex", 
-        variant === "vertical" ? "flex-col items-center gap-4" : "items-center gap-3",
+        "flex flex-shrink-0",
+        isVertical ? "flex-col items-center gap-4 text-center" : "items-center gap-2 md:gap-3",
         className
       )}
       {...props}
     >
-      <svg
-        width={iconDim}
-        height={iconDim}
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="flex-shrink-0"
-      >
-        {/* The D shape (Primary / Lime Green) */}
-        <path
-          d="M 30 10 H 60 C 85 10 95 30 95 50 C 95 70 85 90 60 90 H 40 L 55 75 H 60 C 75 75 80 65 80 50 C 80 35 75 25 60 25 H 45 L 30 10 Z"
-          className="fill-primary"
-        />
-        
-        {/* The W shape (Foreground / Black) */}
-        <path
-          d="M 12 10 V 90 L 45 55 L 75 85 L 90 70 L 45 25 L 28 42 V 10 Z"
-          className="fill-foreground drop-shadow-md"
-        />
-      </svg>
-      
-      {variant !== "mark" && (
-        <div className={cn(
-          "font-headline font-black tracking-tighter shrink-0",
-          size === "sm" ? "text-xl" : size === "lg" ? "text-5xl" : "text-3xl"
-        )}>
-          <span className="text-foreground">Well</span><span className="text-primary">Dropp</span>
-        </div>
-      )}
+      {markContent}
+
+      <div className={cn(
+        "font-headline font-black tracking-tighter shrink-0 select-none",
+        textClasses[size]
+      )}>
+        <span className="text-foreground">Well</span><span className="text-primary">Dropp</span>
+      </div>
     </div>
   )
 }
