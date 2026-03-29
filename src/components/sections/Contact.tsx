@@ -54,42 +54,47 @@ export function Contact() {
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
     try {
-      // PREPARING CLEAN EMAIL BODY AS REQUESTED
-      const emailBody = `
-New Contact Form Submission:
+      let sent = false
 
-Name: ${data.first_name} ${data.last_name || ""}
-Email: ${data.email}
-Phone: ${data.phone}
-Service: ${data.service}
+      // Method 1: Try Web3Forms (no server config needed)
+      try {
+        const web3Res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: "012cf280-c68e-4589-a206-628fbd19d8bc",
+            subject: `New Client Inquiry - ${data.service}`,
+            from_name: "Welldropp Website",
+            replyto: data.email,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+            phone: data.phone,
+            service: data.service,
+            message: data.message,
+          }),
+        })
+        const web3Result = await web3Res.json()
+        if (web3Result.success) sent = true
+      } catch {
+        // Web3Forms failed, will try fallback
+      }
 
-Message:
-${data.message}
-      `.trim();
+      // Method 2: Fallback to server API route (nodemailer → Gmail)
+      if (!sent) {
+        const apiRes = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+        const apiResult = await apiRes.json()
+        if (!apiRes.ok || !apiResult.success) {
+          throw new Error(apiResult.message || "Failed to send message")
+        }
+        sent = true
+      }
 
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: "012cf280-c68e-4589-a206-628fbd19d8bc",
-          subject: "New Client Inquiry - Welldropp",
-          from_name: "Welldropp Website",
-          replyto: data.email,
-          first_name: data.first_name,
-          last_name: data.last_name,
-          email: data.email,
-          phone: data.phone,
-          service: data.service,
-          message: emailBody, // Using the formatted body
-        }),
-      })
-
-      const result = await response.json()
-
-      if (result.success) {
+      if (sent) {
         setSubmitted(true)
         toast({
           title: "Message sent successfully",
@@ -97,8 +102,6 @@ ${data.message}
         })
         form.reset()
         setTimeout(() => setSubmitted(false), 5000)
-      } else {
-        throw new Error(result.message || "Failed to send message")
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : "Something went wrong. Please try again.";

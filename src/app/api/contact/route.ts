@@ -5,18 +5,18 @@ import { escapeHtml } from '@/lib/utils';
 
 // ── Validation Schema ──────────────────────────────────────────────
 const contactSchema = z.object({
-  firstName: z.string().min(1, 'First name is required').max(50),
-  lastName: z.string().min(1, 'Last name is required').max(50),
+  first_name: z.string().min(1, 'First name is required').max(50),
+  last_name: z.string().optional().default(''),
   email: z.string().email('Invalid email address'),
   phone: z.string().optional(),
   service: z.string().min(1, 'Service is required'),
-  message: z.string().min(2, 'Message is too short').max(5000),
+  message: z.string().min(1, 'Message is too short').max(5000),
 });
 
 // ── Email HTML Template ────────────────────────────────────────────
 function buildEmailHtml(data: z.infer<typeof contactSchema>): string {
-  const firstName = escapeHtml(data.firstName);
-  const lastName = escapeHtml(data.lastName);
+  const firstName = escapeHtml(data.first_name);
+  const lastName = escapeHtml(data.last_name);
   const email = escapeHtml(data.email);
   const phone = escapeHtml(data.phone || 'Not provided');
   const service = escapeHtml(data.service);
@@ -119,11 +119,11 @@ export async function POST(request: NextRequest) {
       from: `"WELLDROPP Contact Form" <${gmailUser}>`,
       to: 'welldropp.tech@gmail.com',
       replyTo: data.email,
-      subject: `New Contact Form Submission — ${data.firstName} ${data.lastName} (${data.service})`,
+      subject: `New Contact Form Submission — ${data.first_name} ${data.last_name} (${data.service})`,
       text: [
         `New Contact Form Submission`,
         ``,
-        `Name: ${data.firstName} ${data.lastName}`,
+        `Name: ${data.first_name} ${data.last_name}`,
         `Email: ${data.email}`,
         `Phone: ${data.phone || 'Not provided'}`,
         `Service: ${data.service}`,
