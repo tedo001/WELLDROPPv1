@@ -76,11 +76,12 @@ export function Contact() {
         description: result.message || "Our team has been notified at welldropp.tech@gmail.com. We'll get back to you soon!",
       })
       form.reset()
-    } catch (error: any) {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "We couldn't process your message right now. Please try again later or email us directly.";
       toast({
         variant: "destructive",
         title: "Submission Error",
-        description: error.message || "We couldn't process your message right now. Please try again later or email us directly.",
+        description: message,
       })
     } finally {
       setIsSubmitting(false)
