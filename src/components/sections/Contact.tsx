@@ -38,6 +38,7 @@ const formSchema = z.object({
 export function Contact() {
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [submitted, setSubmitted] = React.useState(false)
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
@@ -71,10 +72,8 @@ export function Contact() {
         throw new Error(result.message || 'Something went wrong')
       }
 
-      toast({
-        title: "✓ Message Sent Successfully!",
-        description: result.message || "Our team has been notified at welldropp.tech@gmail.com. We'll get back to you soon!",
-      })
+      setSubmitted(true)
+      setTimeout(() => setSubmitted(false), 5000)
       form.reset()
     } catch (error) {
       const message = error instanceof Error ? error.message : "We couldn't process your message right now. Please try again later or email us directly.";
@@ -99,7 +98,7 @@ export function Contact() {
   return (
     <section id="contact" className="py-24 bg-background">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
           <div className="reveal">
             <p className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-3">Get In Touch</p>
             <h2 className="text-4xl md:text-5xl font-black mb-6">Let's build<br />something real.</h2>
@@ -208,6 +207,7 @@ export function Contact() {
                             <SelectItem value="Data Analytics Dashboard">Data Analytics Dashboard</SelectItem>
                             <SelectItem value="MLOps & ML/DL Research">MLOps & ML/DL Research</SelectItem>
                             <SelectItem value="E-Commerce Platform">E-Commerce Platform</SelectItem>
+                            <SelectItem value="UI/UX Design">UI/UX Design</SelectItem>
                             <SelectItem value="Custom / Enterprise">Custom / Enterprise</SelectItem>
                           </SelectContent>
                         </Select>
@@ -242,6 +242,11 @@ export function Contact() {
                     {isSubmitting ? "Processing..." : "Send Message →"}
                   </Button>
                 </form>
+                {submitted && (
+                  <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl text-green-800 font-semibold text-center transition-opacity duration-500 ease-in-out opacity-100">
+                    ✓ Message Sent Successfully! Our team has been notified. We'll get back to you soon!
+                  </div>
+                )}
               </Form>
             </div>
           </div>
