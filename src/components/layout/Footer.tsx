@@ -23,16 +23,19 @@ export function Footer() {
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               Drop Smarter. Scale Faster. — AI solutions precisely engineered for modern businesses. From agents to e-commerce, we build it all.
             </p>
+            <p className="text-muted-foreground/60 text-xs mt-3">
+              Coimbatore, Tamil Nadu, India
+            </p>
           </div>
 
           <div>
             <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-foreground mb-6">Services</h4>
             <ul className="space-y-4 text-sm font-semibold text-muted-foreground">
-              <li><Link href="#services" className="hover:text-primary transition-colors">Agentic AI</Link></li>
-              <li><Link href="#services" className="hover:text-primary transition-colors">Telegram Bots</Link></li>
-              <li><Link href="#services" className="hover:text-primary transition-colors">Chatbots</Link></li>
+              <li><Link href="#services" className="hover:text-primary transition-colors">Web Development</Link></li>
+              <li><Link href="#services" className="hover:text-primary transition-colors">AI Agents & Bots</Link></li>
+              <li><Link href="#services" className="hover:text-primary transition-colors">Data Analytics</Link></li>
+              <li><Link href="#services" className="hover:text-primary transition-colors">MLOps & Research</Link></li>
               <li><Link href="#services" className="hover:text-primary transition-colors">E-Commerce</Link></li>
-              <li><Link href="#services" className="hover:text-primary transition-colors">Dashboard</Link></li>
             </ul>
           </div>
 

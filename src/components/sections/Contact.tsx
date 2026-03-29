@@ -111,7 +111,7 @@ export function Contact() {
               {[
                 { icon: Mail, value: "welldropp.tech@gmail.com", label: "Email Us" },
                 { icon: Phone, value: "+91 87788 60376", label: "Call Us" },
-                { icon: MapPin, value: "Tamil Nadu, India 🇮🇳", label: "Location" },
+                { icon: MapPin, value: "Coimbatore, Tamil Nadu, India", label: "Location" },
                 { icon: Clock, value: "Mon-Sat, 9AM-10PM", label: "Available Hours" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4">
@@ -203,13 +203,11 @@ export function Contact() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent className="bg-card border-border">
-                            <SelectItem value="Agentic AI System">Agentic AI System</SelectItem>
-                            <SelectItem value="Telegram / Email Bot">Telegram / Email Bot</SelectItem>
-                            <SelectItem value="Customer Care Chatbot">Customer Care Chatbot</SelectItem>
+                            <SelectItem value="Web Development">Web Development</SelectItem>
+                            <SelectItem value="AI Agent (Telegram / Instagram / WhatsApp Bot)">AI Agent (Telegram / Instagram / WhatsApp Bot)</SelectItem>
+                            <SelectItem value="Data Analytics Dashboard">Data Analytics Dashboard</SelectItem>
+                            <SelectItem value="MLOps & ML/DL Research">MLOps & ML/DL Research</SelectItem>
                             <SelectItem value="E-Commerce Platform">E-Commerce Platform</SelectItem>
-                            <SelectItem value="Analytics Dashboard">Analytics Dashboard</SelectItem>
-                            <SelectItem value="Website Builder">Website Builder</SelectItem>
-                            <SelectItem value="ML/DL Research">ML/DL Research</SelectItem>
                             <SelectItem value="Custom / Enterprise">Custom / Enterprise</SelectItem>
                           </SelectContent>
                         </Select>

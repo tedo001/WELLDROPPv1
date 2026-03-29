@@ -1,39 +1,61 @@
 "use client"
 
 import Link from "next/link"
-import { Check } from "lucide-react"
+import { Check, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 const plans = [
   {
-    name: "Basic",
-    price: "₹2,999",
-    description: "For solo founders and micro-businesses testing AI automation.",
-    features: ["1 Chatbot Integration", "Telegram or Email Bot", "2,000 AI interactions/mo", "Basic Analytics", "Email Support"],
-    popular: false
-  },
-  {
     name: "Starter",
-    price: "₹9,999",
-    description: "For small businesses ready to automate support and operations.",
-    features: ["2 AI Agents", "Telegram + Email Bot", "Customer Care Chatbot", "15,000 AI interactions/mo", "Priority Email Support"],
-    popular: false
+    price: "₹2,499",
+    period: "one-time",
+    description: "Perfect for small businesses and personal brands getting started online.",
+    features: [
+      "Up to 4-page responsive website",
+      "Data Dashboard integration",
+      "AI Agent (Telegram / Instagram / WhatsApp Bot)",
+      "Mobile-friendly design",
+      "Basic SEO setup",
+      "1 round of revisions",
+      "Email support",
+    ],
+    popular: false,
   },
   {
-    name: "Growth",
-    price: "₹29,999",
-    description: "For scaling companies that need serious AI infrastructure.",
-    features: ["5 AI Agents (custom)", "Full E-Commerce Platform", "Advanced Dashboard", "50,000 AI interactions/mo", "Website Builder Access", "24/7 Priority Support"],
-    popular: true
+    name: "Professional",
+    price: "₹9,999",
+    period: "one-time",
+    description: "For growing businesses that need a complete web presence with AI-powered features.",
+    features: [
+      "5+ page responsive website",
+      "AI Chat Service integrated",
+      "Custom domain name setup",
+      "SEO optimization add-on",
+      "Data Dashboard integration",
+      "AI Agent (Telegram / Instagram / WhatsApp Bot)",
+      "3 rounds of revisions",
+      "Priority support",
+    ],
+    popular: true,
   },
   {
     name: "Enterprise",
     price: "Custom",
-    description: "Full-suite AI with ML research, custom models, and dedicated team.",
-    features: ["Unlimited AI Agents", "Custom ML/DL Models", "Dedicated Infrastructure", "Unlimited interactions", "On-call Engineering Team", "SLA & Compliance"],
-    popular: false
-  }
+    period: null,
+    description: "Full-scale e-commerce platform with everything from Professional, plus advanced features.",
+    features: [
+      "Complete E-Commerce web service",
+      "All Professional plan features included",
+      "Payment gateway integration",
+      "Inventory management system",
+      "AI-powered product recommendations",
+      "Advanced analytics & reporting",
+      "Unlimited revisions",
+      "Dedicated account manager",
+    ],
+    popular: false,
+  },
 ]
 
 export function Pricing() {
@@ -44,21 +66,24 @@ export function Pricing() {
           <p className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-3">Pricing</p>
           <h2 className="text-4xl md:text-5xl font-black mb-4">Simple, transparent pricing</h2>
           <p className="text-muted-foreground max-w-lg mx-auto">
-            No hidden fees. Scale up or down as your business grows.
+            No hidden fees. Pick a plan that fits your needs and let us build your vision.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch">
           {plans.map((plan) => (
             <div
               key={plan.name}
               className={cn(
-                "relative glass-card p-10 rounded-2xl flex flex-col text-left transition-all",
-                plan.popular ? "border-primary bg-gradient-to-br from-primary/5 to-primary/10 shadow-[0_0_45px_rgba(0,230,118,0.15)]" : "border-border"
+                "relative glass-card p-10 rounded-2xl flex flex-col text-left transition-all duration-300 hover:-translate-y-1",
+                plan.popular
+                  ? "border-primary bg-gradient-to-br from-primary/5 via-primary/10 to-secondary/5 shadow-[0_0_60px_rgba(0,230,118,0.15)] scale-[1.02] md:scale-105"
+                  : "border-border hover:border-primary/30"
               )}
             >
               {plan.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-background font-black text-[10px] py-1 px-4 rounded-full uppercase tracking-widest shadow-lg">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-background font-black text-[10px] py-1.5 px-5 rounded-full uppercase tracking-widest shadow-lg flex items-center gap-1.5">
+                  <Sparkles className="w-3 h-3" />
                   Most Popular
                 </div>
               )}
@@ -69,7 +94,7 @@ export function Pricing() {
                 </p>
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl font-black">{plan.price}</span>
-                  {plan.price !== "Custom" && <span className="text-muted-foreground text-sm">/mo</span>}
+                  {plan.period && <span className="text-muted-foreground text-sm">/{plan.period}</span>}
                 </div>
                 <p className="text-xs text-muted-foreground mt-4 leading-relaxed">{plan.description}</p>
               </div>
@@ -77,7 +102,7 @@ export function Pricing() {
               <div className="space-y-4 mb-10 flex-grow">
                 {plan.features.map((feature) => (
                   <div key={feature} className="flex items-start gap-3 text-sm">
-                    <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                    <Check className={cn("w-4 h-4 shrink-0 mt-0.5", plan.popular ? "text-primary" : "text-primary/70")} />
                     <span className="text-foreground/80">{feature}</span>
                   </div>
                 ))}
@@ -88,7 +113,9 @@ export function Pricing() {
                 variant={plan.popular ? "default" : "outline"}
                 className={cn(
                   "w-full rounded-full h-12 font-black transition-all",
-                  plan.popular ? "bg-primary text-background hover:bg-secondary" : "border-border hover:border-primary hover:text-primary"
+                  plan.popular
+                    ? "bg-primary text-background hover:bg-secondary shadow-[0_5px_20px_rgba(0,230,118,0.25)]"
+                    : "border-border hover:border-primary hover:text-primary"
                 )}
               >
                 <Link href="#contact">
