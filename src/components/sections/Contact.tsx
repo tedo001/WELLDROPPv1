@@ -100,11 +100,12 @@ ${data.message}
       } else {
         throw new Error(result.message || "Failed to send message")
       }
-    } catch (error: any) {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Something went wrong. Please try again.";
       toast({
         variant: "destructive",
         title: "Error Sending Message",
-        description: error.message || "Something went wrong. Please try again.",
+        description: message,
       })
     } finally {
       setIsSubmitting(false)
@@ -126,7 +127,7 @@ ${data.message}
               {[
                 { icon: Mail, value: "welldropp.tech@gmail.com", label: "Email Us" },
                 { icon: Phone, value: "+91 87788 60376", label: "Call Us" },
-                { icon: MapPin, value: "Tamil Nadu, India 🇮🇳", label: "Location" },
+                { icon: MapPin, value: "Coimbatore, Tamil Nadu, India", label: "Location" },
                 { icon: Clock, value: "Mon-Sat, 9AM-10PM", label: "Available Hours" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4">
@@ -218,10 +219,13 @@ ${data.message}
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent className="bg-card border-border">
-                            <SelectItem value="Agentic AI">Agentic AI</SelectItem>
-                            <SelectItem value="Telegram Bots">Telegram Bots</SelectItem>
-                            <SelectItem value="Custom Software">Custom Software</SelectItem>
-                            <SelectItem value="Enterprise Automation">Enterprise Automation</SelectItem>
+                            <SelectItem value="Web Development">Web Development</SelectItem>
+                            <SelectItem value="AI Agent (Telegram / Instagram / WhatsApp Bot)">AI Agent (Telegram / Instagram / WhatsApp Bot)</SelectItem>
+                            <SelectItem value="Data Analytics Dashboard">Data Analytics Dashboard</SelectItem>
+                            <SelectItem value="MLOps & ML/DL Research">MLOps & ML/DL Research</SelectItem>
+                            <SelectItem value="E-Commerce Platform">E-Commerce Platform</SelectItem>
+                            <SelectItem value="UI/UX Design">UI/UX Design</SelectItem>
+                            <SelectItem value="Custom / Enterprise">Custom / Enterprise</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
