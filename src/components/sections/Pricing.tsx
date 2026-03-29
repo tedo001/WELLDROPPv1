@@ -9,7 +9,6 @@ const plans = [
   {
     name: "Starter",
     price: "₹2,499",
-    period: "one-time",
     description: "Perfect for small businesses and personal brands getting started online.",
     features: [
       "Up to 4-page responsive website",
@@ -25,7 +24,6 @@ const plans = [
   {
     name: "Professional",
     price: "₹9,999",
-    period: "one-time",
     description: "For growing businesses that need a complete web presence with AI-powered features.",
     features: [
       "5+ page responsive website",
@@ -42,7 +40,6 @@ const plans = [
   {
     name: "Enterprise",
     price: "Custom",
-    period: null,
     description: "Full-scale e-commerce platform with everything from Professional, plus advanced features.",
     features: [
       "Complete E-Commerce web service",
@@ -94,7 +91,6 @@ export function Pricing() {
                 </p>
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl font-black">{plan.price}</span>
-                  {plan.period && <span className="text-muted-foreground text-sm">/{plan.period}</span>}
                 </div>
                 <p className="text-xs text-muted-foreground mt-4 leading-relaxed">{plan.description}</p>
               </div>
