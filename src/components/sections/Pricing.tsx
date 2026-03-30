@@ -1,9 +1,17 @@
 "use client"
 
-import Link from "next/link"
-import { Check, Sparkles } from "lucide-react"
+import { Check, Sparkles, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+
+// ── Google Form URLs ──────────────────────────────────────────────
+// Replace these with your actual Google Form links.
+// Create 3 Google Forms at https://docs.google.com/forms and paste URLs below.
+const GOOGLE_FORM_URLS = {
+  starter: "https://forms.gle/YOUR_STARTER_FORM_ID",
+  professional: "https://forms.gle/YOUR_PROFESSIONAL_FORM_ID",
+  enterprise: "https://forms.gle/YOUR_ENTERPRISE_FORM_ID",
+}
 
 const plans = [
   {
@@ -20,6 +28,7 @@ const plans = [
       "Email support",
     ],
     popular: false,
+    formUrl: GOOGLE_FORM_URLS.starter,
   },
   {
     name: "Professional",
@@ -36,6 +45,7 @@ const plans = [
       "Priority support",
     ],
     popular: true,
+    formUrl: GOOGLE_FORM_URLS.professional,
   },
   {
     name: "Enterprise",
@@ -52,6 +62,7 @@ const plans = [
       "Dedicated account manager",
     ],
     popular: false,
+    formUrl: GOOGLE_FORM_URLS.enterprise,
   },
 ]
 
@@ -114,9 +125,10 @@ export function Pricing() {
                     : "border-border hover:bg-primary hover:text-background transition-colors"
                 )}
               >
-                <Link href="#contact">
+                <a href={plan.formUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                   {plan.price === "Custom" ? "Contact Sales" : "Get Started"}
-                </Link>
+                  <ExternalLink className="w-4 h-4" />
+                </a>
               </Button>
             </div>
           ))}
