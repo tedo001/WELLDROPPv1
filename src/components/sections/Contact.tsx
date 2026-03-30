@@ -176,6 +176,7 @@ export function Contact() {
 
     setIsSubmitting(true)
     try {
+      // 1. Save to Supabase database
       const { error } = await supabase.from("contact_messages").insert({
         first_name: data.first_name,
         last_name: data.last_name || "",
@@ -187,6 +188,17 @@ export function Contact() {
 
       if (error) {
         throw new Error(error.message)
+      }
+
+      // 2. Send email notification to welldropp.tech@gmail.com
+      try {
+        await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+      } catch {
+        // Email notification is best-effort; message is already saved in DB
       }
 
       setSubmitted(true)
