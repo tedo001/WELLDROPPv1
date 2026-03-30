@@ -163,7 +163,7 @@ export function Contact() {
     }
   }
 
-  // Submit form → save to Supabase DB
+  // Submit form → save to Supabase DB + send email notification
   async function onSubmit(data: z.infer<typeof formSchema>) {
     if (!emailVerified) {
       toast({
@@ -176,29 +176,61 @@ export function Contact() {
 
     setIsSubmitting(true)
     try {
-      // 1. Save to Supabase database
-      const { error } = await supabase.from("contact_messages").insert({
-        first_name: data.first_name,
-        last_name: data.last_name || "",
-        email: data.email,
-        phone: data.phone,
-        service: data.service,
-        message: data.message,
-      })
+      let delivered = false
 
-      if (error) {
-        throw new Error(error.message)
+      // 1. Save to Supabase database
+      try {
+        const { error } = await supabase.from("contact_messages").insert({
+          first_name: data.first_name,
+          last_name: data.last_name || "",
+          email: data.email,
+          phone: data.phone,
+          service: data.service,
+          message: data.message,
+        })
+        if (!error) delivered = true
+      } catch {
+        // Supabase insert failed, continue to other methods
       }
 
-      // 2. Send email notification to welldropp.tech@gmail.com
+      // 2. Send email via server API (nodemailer → Gmail SMTP)
       try {
-        await fetch("/api/contact", {
+        const apiRes = await fetch("/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         })
+        const apiResult = await apiRes.json()
+        if (apiResult.success) delivered = true
       } catch {
-        // Email notification is best-effort; message is already saved in DB
+        // Server API failed, try Web3Forms
+      }
+
+      // 3. Fallback: Web3Forms (no server config needed)
+      try {
+        const web3Res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: "012cf280-c68e-4589-a206-628fbd19d8bc",
+            subject: `New Client Inquiry - ${data.service}`,
+            from_name: `${data.first_name} ${data.last_name || ""}`.trim(),
+            replyto: data.email,
+            Name: `${data.first_name} ${data.last_name || ""}`.trim(),
+            Email: data.email,
+            Phone: data.phone,
+            Service: data.service,
+            Message: data.message,
+          }),
+        })
+        const web3Result = await web3Res.json()
+        if (web3Result.success) delivered = true
+      } catch {
+        // Web3Forms also failed
+      }
+
+      if (!delivered) {
+        throw new Error("Could not send message. Please email us directly at welldropp.tech@gmail.com")
       }
 
       setSubmitted(true)
