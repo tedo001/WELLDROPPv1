@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { Mail, Phone, MapPin, Clock, ShieldCheck, Loader2 } from "lucide-react"
+import { supabase } from "@/lib/supabase"
 
 const formSchema = z.object({
   first_name: z.string().min(1, { message: "First name is required" }),
@@ -79,6 +80,7 @@ export function Contact() {
     return () => clearTimeout(timer)
   }, [otpCooldown])
 
+  // Send OTP via Supabase Auth
   async function handleSendOtp() {
     const email = form.getValues("email")
     const emailValid = z.string().email().safeParse(email)
@@ -89,27 +91,28 @@ export function Contact() {
 
     setSendingOtp(true)
     try {
-      const res = await fetch("/api/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: true,
+        },
       })
-      const data = await res.json()
 
-      if (data.success) {
-        setOtpSent(true)
-        setOtpCooldown(60)
-        toast({
-          title: "Verification code sent",
-          description: `Check your inbox at ${email}`,
-        })
-      } else {
+      if (error) {
         toast({
           variant: "destructive",
           title: "Could not send code",
-          description: data.message || "Please try again.",
+          description: error.message,
         })
+        return
       }
+
+      setOtpSent(true)
+      setOtpCooldown(60)
+      toast({
+        title: "Verification code sent",
+        description: `Check your inbox at ${email}`,
+      })
     } catch {
       toast({
         variant: "destructive",
@@ -121,33 +124,34 @@ export function Contact() {
     }
   }
 
+  // Verify OTP via Supabase Auth
   async function handleVerifyOtp() {
     if (otpCode.length !== 6) return
 
     setVerifyingOtp(true)
     try {
       const email = form.getValues("email")
-      const res = await fetch("/api/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp: otpCode }),
+      const { error } = await supabase.auth.verifyOtp({
+        email,
+        token: otpCode,
+        type: "email",
       })
-      const data = await res.json()
 
-      if (data.success) {
-        setEmailVerified(true)
-        setVerifiedEmail(email)
-        toast({
-          title: "Email verified",
-          description: "You can now submit the form.",
-        })
-      } else {
+      if (error) {
         toast({
           variant: "destructive",
           title: "Verification failed",
-          description: data.message || "Incorrect code.",
+          description: error.message,
         })
+        return
       }
+
+      setEmailVerified(true)
+      setVerifiedEmail(email)
+      toast({
+        title: "Email verified",
+        description: "You can now submit the form.",
+      })
     } catch {
       toast({
         variant: "destructive",
@@ -159,6 +163,7 @@ export function Contact() {
     }
   }
 
+  // Submit form → save to Supabase DB
   async function onSubmit(data: z.infer<typeof formSchema>) {
     if (!emailVerified) {
       toast({
@@ -171,16 +176,17 @@ export function Contact() {
 
     setIsSubmitting(true)
     try {
-      // Primary: Send via server API route (nodemailer → Gmail SMTP)
-      const apiRes = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      const { error } = await supabase.from("contact_messages").insert({
+        first_name: data.first_name,
+        last_name: data.last_name || "",
+        email: data.email,
+        phone: data.phone,
+        service: data.service,
+        message: data.message,
       })
-      const apiResult = await apiRes.json()
 
-      if (!apiRes.ok || !apiResult.success) {
-        throw new Error(apiResult.message || "Failed to send message")
+      if (error) {
+        throw new Error(error.message)
       }
 
       setSubmitted(true)
@@ -193,9 +199,13 @@ export function Contact() {
       setOtpSent(false)
       setOtpCode("")
       setVerifiedEmail("")
+
+      // Sign out the OTP session (cleanup)
+      await supabase.auth.signOut()
+
       setTimeout(() => setSubmitted(false), 5000)
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Something went wrong.";
+      const message = error instanceof Error ? error.message : "Something went wrong."
       toast({
         variant: "destructive",
         title: "Error Sending Message",
@@ -412,9 +422,9 @@ export function Contact() {
                     {isSubmitting ? (
                       <span className="flex items-center gap-2"><Loader2 className="w-5 h-5 animate-spin" /> Sending...</span>
                     ) : !emailVerified ? (
-                      "Verify Email to Send →"
+                      "Verify Email to Send"
                     ) : (
-                      "Send Message →"
+                      "Send Message"
                     )}
                   </Button>
                 </form>
