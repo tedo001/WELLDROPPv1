@@ -54,42 +54,24 @@ export function Contact() {
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
     try {
-      // PREPARING CLEAN EMAIL BODY AS REQUESTED
-      const emailBody = `
-New Contact Form Submission:
-
-Name: ${data.first_name} ${data.last_name || ""}
-Email: ${data.email}
-Phone: ${data.phone}
-Service: ${data.service}
-
-Message:
-${data.message}
-      `.trim();
-
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: "012cf280-c68e-4589-a206-628fbd19d8bc",
-          subject: "New Client Inquiry - Welldropp",
-          from_name: "Welldropp Website",
-          replyto: data.email,
           first_name: data.first_name,
           last_name: data.last_name,
           email: data.email,
           phone: data.phone,
           service: data.service,
-          message: emailBody, // Using the formatted body
+          message: data.message,
         }),
       })
 
       const result = await response.json()
 
-      if (result.success) {
+      if (response.ok && result.success) {
         setSubmitted(true)
         toast({
           title: "Message sent successfully",
