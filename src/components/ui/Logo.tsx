@@ -29,19 +29,16 @@ export function Logo({ className, variant = "horizontal", size = "md", ...props 
 
   const markContent = (
     <div
-      className="flex items-center justify-center flex-shrink-0"
+      className="relative flex items-center justify-center flex-shrink-0"
       style={{ width: "clamp(32px, 5vw, " + iconDim + "px)", height: "clamp(32px, 5vw, " + iconDim + "px)" }}
     >
       <Image
         src="/welldropp-mark.png"
         alt="WellDropp Logo Mark"
-        width={iconDim * 1.5}
-        height={iconDim * 1.5}
+        fill
         className="object-contain"
         style={{
           filter: "drop-shadow(0 0 8px rgba(0, 230, 118, 0.2))",
-          maxWidth: "100%",
-          maxHeight: "100%",
         }}
         priority
       />

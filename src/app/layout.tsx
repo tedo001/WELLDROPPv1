@@ -5,6 +5,11 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'WELLDROPP | Building Intelligent Software for the Future',
   description: 'AI Agents, Chatbots, Automation & Scalable Digital Solutions for the modern enterprise.',
+  icons: {
+    icon: '/welldropp-mark.png',
+    shortcut: '/welldropp-mark.png',
+    apple: '/welldropp-mark.png',
+  },
 };
 
 import { Toaster } from "@/components/ui/toaster"
